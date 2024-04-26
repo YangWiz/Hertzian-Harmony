@@ -12,3 +12,7 @@ platforms = ["linux-64"]
 unicorn = ">=2.0.1.post1,<2.0.2"
 uvicorn = ">=0.29.0,<0.30"
 fastapi = ">=0.110.1,<0.111"
+pymongo = ">=4.6.3,<4.7"
+inflect = ">=7.0.0,<7.1"
+sqlalchemy = ">=2.0.29,<2.1"
+psycopg2 = ">=2.9.9,<2.10"
