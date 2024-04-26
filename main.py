@@ -15,6 +15,7 @@ app = FastAPI()
 ENV_VAR_DB_URL = "DATABASE_URL"
 
 db_url = os.getenv(ENV_VAR_DB_URL, "localhost")
+db_url = db_url.replace('postgres', 'postgresql')
 
 psql = db(db_url)
 
