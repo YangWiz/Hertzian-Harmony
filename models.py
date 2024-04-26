@@ -20,3 +20,5 @@ class PhonePool(Base):
 
     id = Column(Integer, primary_key=True)
     phone = Column(String, nullable=False)
+    question_id = Column(Integer, nullable=True)
+    answer_type = Column(String, nullable=True)

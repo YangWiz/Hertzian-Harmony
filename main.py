@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 import inflect
 from fastapi import FastAPI, Depends
-from schemas import Item, UpdateItem
+from schemas import Item, UpdateItem, Phone
 from sqlalchemy.orm import Session
 from database import db
 from models import Base
@@ -27,15 +27,23 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-@app.post("/new_phone/{}")
-def add_new_phone():
+@app.post("/api/new_phone/{number}")
+def add_new_phone(number: str, db: Session = Depends(psql.connect)):
+    new_phone = models.PhonePool(number = number)
+    db.add(new_phone)
     return
 
 @app.get("")
 def get_questions():
     return
 
-@app.post("/api/list")
+@app.get("/api/vote/{number}")
+def vote(number: str, db: Session = Depends(psql.connect)):
+    new_phone = models.PhonePool(number = number)
+    db.add(new_phone)
+    return
+
+@app.post("/api/questions")
 def add_item(item: Item, db: Session = Depends(psql.connect)):
     new_item = models.Item(name = item.name, description = item.description, complete = False)
     db.add(new_item)

@@ -10,3 +10,6 @@ class UpdateItem(BaseModel):
     name: str
     description: str
     complete: bool
+
+class Phone(BaseModel):
+    number: str
