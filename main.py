@@ -12,19 +12,10 @@ import os
 
 app = FastAPI()
 
-ENV_VAR_DB_HOST = "DB_HOST"
-ENV_VAR_DB_PORT = "DB_PORT"
-ENV_VAR_DB_NAME = "POSTGRES_DB"
-ENV_VAR_DB_USERNAME = "POSTGRES_USER"
-ENV_VAR_DB_PASSWORD = "POSTGRES_PASSWORD"
+ENV_VAR_DB_URL = "DATABASE_URL"
 
-db_host = os.getenv(ENV_VAR_DB_HOST, "localhost")
-db_port = os.getenv(ENV_VAR_DB_PORT, "5432")
-db_name = os.getenv(ENV_VAR_DB_NAME, "postgres")
-db_username = os.getenv(ENV_VAR_DB_USERNAME, "postgres")
-db_password = os.getenv(ENV_VAR_DB_PASSWORD, "test")
+db_url = os.getenv(ENV_VAR_DB_URL, "localhost")
 
-db_url = f"postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
 psql = db(db_url)
 
 @app.get("/")
