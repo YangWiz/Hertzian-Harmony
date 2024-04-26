@@ -46,6 +46,8 @@ def vote(number: str, db: Session = Depends(psql.connect)):
 @app.post("/api/questions")
 def add_item(item: Item, db: Session = Depends(psql.connect)):
     new_item = models.Item(name = item.name, description = item.description, complete = False)
+
+    # Get free phone from the phone pool.
     db.add(new_item)
     db.commit()
     db.refresh(new_item)
