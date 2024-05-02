@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+        <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.w3.org/2001/vxml 
+        http://www.w3.org/TR/voicexml20/vxml.xsd">
+        <menu>
+        <property name="inputmodes" value="dtmf voice"/>
+        <prompt>
+            The number of votes for "yes" on this question is 0, and for "no" is 0. To view results for other questions, press or say 1.
+        </prompt>
+        <choice dtmf="1" accept="exact" next="localhost/vxml/root.xml">
+            One
+        </choice>
+        <noinput>Please say or press one <enumerate/></noinput>
+        </menu>
+        </vxml>
+        

@@ -5,11 +5,8 @@ class Item(BaseModel):
     description: str
     complete: bool
 
-class UpdateItem(BaseModel):
-    id: int
-    name: str
-    description: str
-    complete: bool
-
 class Phone(BaseModel):
     number: str
+
+class Question(BaseModel):
+    description: str

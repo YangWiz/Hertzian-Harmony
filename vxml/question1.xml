@@ -8,6 +8,10 @@
     <prompt>
         The outcome of the vote on this question is affirmative. To view results for other questions, press or say 1.
     </prompt>
+    <data src="http://example.com/weatherapi/today" method="get" namelist="location date">
+                <param name="location" value="New York" />
+                <param name="date" value="2022-08-01" />
+    </data>
     <choice dtmf="1" accept="exact" next="http://webhosting.voxeo.net/209394/www/root.xml">
         One
     </choice>
