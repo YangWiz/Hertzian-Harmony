@@ -1,6 +1,28 @@
 import xml.etree.ElementTree as ET
 import inflect
 
+class PhoneBuilder:
+    def __init__(self, number, domain):
+        self.template = f"""
+        <?xml version="1.0"?>
+        <vxml version="2.1">
+        <form id="postForm">
+            <block>
+            <submit next="" method="post" enctype="application/x-www-form-urlencoded" 
+                    namelist="" 
+                    src="{domain}/api/vote/{number}"/>
+
+            <disconnect/>
+            </block>
+        </form>
+        </vxml>
+        """
+        self.number = number
+
+    def commit(self):
+        with open("./vxml/" + self.number + ".xml", "w") as f:
+            f.write(self.template)
+
 class QuestionBuilder:
     def __init__(self, yes: int, no: int, domain: str, uuid: str):
         self.template = f"""<?xml version="1.0" encoding="ISO-8859-1"?>
