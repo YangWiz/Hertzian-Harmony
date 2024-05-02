@@ -52,6 +52,18 @@ def free_phones(db: Session = Depends(psql.connect)):
 
 @app.get("/api/vote/{number}")
 def vote(number: str, db: Session = Depends(psql.connect)):
+    phone = db.query(models.PhonePool).filter(models.PhonePool.phone == number).one_or_none()
+    if phone is None:
+        return
+
+    if phone.question_type:
+        question = db.query(models.Questions).filter(models.Questions.voteYesPhone == number).one_or_none()
+        qbuilder = QuestionBuilder(question.yes + 1, question.no, heroku_url, question.uuid)
+    else:
+        question = db.query(models.Questions).filter(models.Questions.voteNoPhone == number).one_or_none()
+        qbuilder = QuestionBuilder(question.yes, question.no + 1, heroku_url, question.uuid)
+
+    qbuilder.commit()
     new_phone = models.PhonePool(number = number)
     db.add(new_phone)
     return
@@ -89,23 +101,16 @@ def add_question(question: Question, db: Session = Depends(psql.connect)):
     vxml.updated_vxml([options])
     vxml.commit()
 
-    # Get free phone from the phone pool.
     db.add(question)
     db.commit()
     db.refresh(question)
     return question 
 
 def get_free_phones(db: Session = Depends(psql.connect)):
-    phones = db.query(models.PhonePool).filter(models.PhonePool.answer_type == None).all()
+    phones = db.query(models.PhonePool).filter(models.PhonePool.question_uuid == None).all()
     if (len(phones) <= 1):
         return [] 
     else:
-        phones[0].phone
-
-
-        db.add(curr_item)
-        db.commit()
-        db.refresh(curr_item)
         return [phones[0].phone, phones[1].phone]
 
 @app.get("/vxml/{path}", response_class=FileResponse)
