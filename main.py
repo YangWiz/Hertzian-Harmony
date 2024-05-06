@@ -11,7 +11,7 @@ import os
 import uuid
 from fastapi import FastAPI, File
 from fastapi.responses import FileResponse
-from vxml_builder import QuestionBuilder, HomeBuilder
+from vxml_builder import QuestionBuilder, HomeBuilder, PhoneBuilder
 import urllib.parse
 
 app = FastAPI()
@@ -40,6 +40,10 @@ def add_new_phone(phone: str, db: Session = Depends(psql.connect)):
 
     db.commit()
     db.refresh(new_phone)
+
+    phonevxml = PhoneBuilder(phone, HEROKU_URL)
+    phonevxml.commit()
+
     return new_phone
 
 @app.get("/api/all_phones")
@@ -48,7 +52,7 @@ def all_phones(db: Session = Depends(psql.connect)):
 
 @app.get("/api/free_phones")
 def free_phones(db: Session = Depends(psql.connect)):
-    return db.query(models.PhonePool).filter(models.PhonePool.answer_type == None).all()
+    return db.query(models.PhonePool).filter(models.PhonePool.question_type == None).all()
 
 @app.get("/api/vote/{number}")
 def vote(number: str, db: Session = Depends(psql.connect)):
@@ -56,7 +60,7 @@ def vote(number: str, db: Session = Depends(psql.connect)):
     if phone is None:
         return
 
-    if phone.question_type:
+    if phone.question_type == "yes":
         question = db.query(models.Questions).filter(models.Questions.voteYesPhone == number).one_or_none()
         qbuilder = QuestionBuilder(question.yes + 1, question.no, heroku_url, question.uuid)
     else:
@@ -84,14 +88,17 @@ def add_question(question: Question, db: Session = Depends(psql.connect)):
         prompt = question.description,
         uuid = str(quuid),
         url = heroku_url + "/vxml/" + str(quuid) + ".xml",
-        voteYesPhone = yes,
-        voteNoPhone = no,
+        voteYesPhone = yes.phone,
+        voteNoPhone = no.phone,
         yes = 0,
         no = 0,
     )
 
     qbuilder = QuestionBuilder(0, 0, heroku_url, str(quuid))
     qbuilder.commit()
+
+    combine_phone_question(yes, str(quuid), "yes", db)
+    combine_phone_question(no, str(quuid), "no", db)
 
     vxml = HomeBuilder()
     # updated_vxml = vxml.delete_menu_option(9)
@@ -111,7 +118,15 @@ def get_free_phones(db: Session = Depends(psql.connect)):
     if (len(phones) <= 1):
         return [] 
     else:
-        return [phones[0].phone, phones[1].phone]
+        return [phones[0], phones[1]]
+
+def combine_phone_question(phone: models.PhonePool, quuid: str, qtype: str, db: Session = Depends(psql.connect)):
+    setattr(phone, "question_uuid", quuid)
+    setattr(phone, "question_type", qtype)
+
+    db.add(phone)
+    db.commit()
+    db.refresh(phone)
 
 @app.get("/vxml/{path}", response_class=FileResponse)
 def fetch_files(path: str):

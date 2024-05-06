@@ -22,4 +22,4 @@ class PhonePool(Base):
     id = Column(Integer, primary_key=True)
     phone = Column(String, nullable=False, unique=True)
     question_uuid = Column(String, nullable=True)
-    question_type = Column(bool, nullable=True)
+    question_type = Column(String, nullable=True)

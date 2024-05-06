@@ -153,19 +153,3 @@ class HomeBuilder:
     def commit(self):
         with open(self.home_path, 'w') as file:
             self.vxml_template = file.write(self.vxml_template)
-
-"""
-options = [
-    {'prompt': 'do you think trees on farmland are better than clearing the land before sowing?', 'url': 'http://webhosting.voxeo.net/209394/www/question1.xml'},
-    {'prompt': 'Is it better to preserve historical buildings or replace them with modern infrastructure?', 'url': 'http://webhosting.voxeo.net/209394/www/question2.xml'},
-    {'prompt': 'Is it more effective to manage forest fires through prevention techniques rather than suppression methods after they start?', 'url': 'http://webhosting.voxeo.net/209394/www/question3.xml'}
-]
-
-vxml = Home()
-# updated_vxml = vxml.delete_menu_option(9)
-updated_vxml = vxml.updated_vxml(options)
-vxml.delete(8)
-updated_vxml = vxml.updated_vxml(options)
-print(updated_vxml)
-vxml.commit()
-"""
