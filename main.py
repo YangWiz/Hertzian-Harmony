@@ -80,7 +80,7 @@ def vote(number: str, db: Session = Depends(psql.connect)):
         qbuilder = QuestionBuilder(question.yes, question.no + 1, heroku_url, question.uuid)
 
     qbuilder.commit()
-    new_phone = models.PhonePool(number = number)
+    new_phone = models.PhonePool(phone = number)
     db.add(new_phone)
     return
 
