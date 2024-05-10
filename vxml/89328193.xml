@@ -1,0 +1,13 @@
+
+<vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
+    <form>
+        <block>
+            <submit next="HEROKU_URL/api/vote/89328193" method="get"/>
+        </block>
+    </form>
+
+    <catch event="error">
+        <prompt>There was an error processing your request.</prompt>
+    </catch>
+</vxml>
+        

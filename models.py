@@ -8,15 +8,18 @@ class Questions(Base):
 
     id = Column(Integer, primary_key=True)
     prompt = Column(String, nullable=False)
+    uuid = Column(String, nullable=False)
     url = Column(String, nullable=False)
     voteYesPhone = Column(String, nullable=False)
     voteNoPhone = Column(String, nullable=False)
-    yes = Column(Integer, primary_key=True)
-    no = Column(Integer, primary_key=True)
+    yes = Column(Integer, nullable=False)
+    no = Column(Integer, nullable=False)
 
 
 class PhonePool(Base):
     __tablename__ = "PhonePool"
 
     id = Column(Integer, primary_key=True)
-    phone = Column(String, nullable=False)
+    phone = Column(String, nullable=False, unique=True)
+    question_uuid = Column(String, nullable=True)
+    question_type = Column(String, nullable=True)

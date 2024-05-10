@@ -1,8 +1,57 @@
 import xml.etree.ElementTree as ET
 import inflect
 
-class Home:
-    home_path = "test.xml"
+class PhoneBuilder:
+    def __init__(self, number, domain):
+        self.template = f"""
+        <?xml version="1.0" encoding="UTF-8"?>
+        <vxml version="2.1">
+            <form>
+                <block>
+                    <submit next="{domain}/api/vote/{number}" method="get"/>
+                </block>
+            </form>
+
+            <catch event="error">
+                <prompt>There was an error processing your request.</prompt>
+            </catch>
+
+            <disconnect/>
+        </vxml>
+        """
+        self.number = number
+
+    def commit(self):
+        with open("./vxml/" + self.number + ".xml", "w") as f:
+            f.write(self.template)
+
+class QuestionBuilder:
+    def __init__(self, yes: int, no: int, domain: str, uuid: str):
+        self.template = f"""<?xml version="1.0" encoding="ISO-8859-1"?>
+        <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.w3.org/2001/vxml 
+        http://www.w3.org/TR/voicexml20/vxml.xsd">
+        <menu>
+        <property name="inputmodes" value="dtmf voice"/>
+        <prompt>
+            The number of votes for "yes" on this question is {yes}, and for "no" is {no}. To view results for other questions, press or say 1.
+        </prompt>
+        <choice dtmf="1" accept="exact" next="{domain}/vxml/root.xml">
+            One
+        </choice>
+        <noinput>Please say or press one <enumerate/></noinput>
+        </menu>
+        </vxml>
+        """
+        self.uuid = uuid
+
+    def commit(self):
+        with open("./vxml/" + self.uuid + ".xml", "w") as f:
+            f.write(self.template)
+
+class HomeBuilder:
+    home_path = "vxml/root.xml"
 
     def __init__(self) -> None:
         with open(self.home_path, 'r') as file:
@@ -106,17 +155,3 @@ class Home:
     def commit(self):
         with open(self.home_path, 'w') as file:
             self.vxml_template = file.write(self.vxml_template)
-
-options = [
-    {'prompt': 'do you think trees on farmland are better than clearing the land before sowing?', 'url': 'http://webhosting.voxeo.net/209394/www/question1.xml'},
-    {'prompt': 'Is it better to preserve historical buildings or replace them with modern infrastructure?', 'url': 'http://webhosting.voxeo.net/209394/www/question2.xml'},
-    {'prompt': 'Is it more effective to manage forest fires through prevention techniques rather than suppression methods after they start?', 'url': 'http://webhosting.voxeo.net/209394/www/question3.xml'}
-]
-
-vxml = Home()
-# updated_vxml = vxml.delete_menu_option(9)
-updated_vxml = vxml.updated_vxml(options)
-vxml.delete(8)
-updated_vxml = vxml.updated_vxml(options)
-print(updated_vxml)
-vxml.commit()
