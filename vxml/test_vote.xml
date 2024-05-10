@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+    <form>
+        <block>
+            <submit next="http://127.0.0.1:8080/api/vote/123" method="get"/>
+        </block>
+    </form>
+
+    <catch event="error">
+        <prompt>There was an error processing your request.</prompt>
+    </catch>
+
+    <disconnect/>
+</vxml>

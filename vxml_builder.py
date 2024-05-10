@@ -4,17 +4,19 @@ import inflect
 class PhoneBuilder:
     def __init__(self, number, domain):
         self.template = f"""
-        <?xml version="1.0"?>
+        <?xml version="1.0" encoding="UTF-8"?>
         <vxml version="2.1">
-        <form id="postForm">
-            <block>
-            <submit next="" method="post" enctype="application/x-www-form-urlencoded" 
-                    namelist="" 
-                    src="{domain}/api/vote/{number}"/>
+            <form>
+                <block>
+                    <submit next="{domain}/api/vote/{number}" method="get"/>
+                </block>
+            </form>
+
+            <catch event="error">
+                <prompt>There was an error processing your request.</prompt>
+            </catch>
 
             <disconnect/>
-            </block>
-        </form>
         </vxml>
         """
         self.number = number

@@ -14,7 +14,19 @@ from fastapi.responses import FileResponse
 from vxml_builder import QuestionBuilder, HomeBuilder, PhoneBuilder
 import urllib.parse
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 ENV_VAR_DB_URL = "DATABASE_URL"
 HEROKU_URL = "HEROKU_URL"

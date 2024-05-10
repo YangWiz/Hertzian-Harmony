@@ -1,0 +1,14 @@
+
+        <?xml version="1.0"?>
+        <vxml version="2.1">
+        <form id="postForm">
+            <block>
+            <submit next="" method="post" enctype="application/x-www-form-urlencoded" 
+                    namelist="" 
+                    src="HEROKU_URL/api/vote/89579827439"/>
+
+            <disconnect/>
+            </block>
+        </form>
+        </vxml>
+        
