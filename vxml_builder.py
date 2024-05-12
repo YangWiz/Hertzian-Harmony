@@ -4,8 +4,7 @@ import inflect
 class PhoneBuilder:
     def __init__(self, number, domain):
         self.template = f"""
-        <?xml version="1.0" encoding="UTF-8"?>
-        <vxml version="2.1">
+        <vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
             <form>
                 <block>
                     <submit next="{domain}/api/vote/{number}" method="get"/>

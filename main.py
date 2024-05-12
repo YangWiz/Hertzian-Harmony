@@ -53,7 +53,7 @@ def add_new_phone(phone: str, db: Session = Depends(psql.connect)):
     db.commit()
     db.refresh(new_phone)
 
-    phonevxml = PhoneBuilder(phone, HEROKU_URL)
+    phonevxml = PhoneBuilder(phone, heroku_url)
     phonevxml.commit()
 
     return new_phone
