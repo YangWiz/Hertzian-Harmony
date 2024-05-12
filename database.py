@@ -5,7 +5,7 @@ from models import Base
 class db:
     def __init__(self, db_url: str):
         self.offline = False
-        self.engine = create_engine(db_url)
+        self.engine = create_engine(db_url, pool_size=20, max_overflow=0)
         self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind = self.engine)
         Base.metadata.create_all(bind = self.engine)
 

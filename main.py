@@ -92,7 +92,7 @@ def vote(number: str, db: Session = Depends(psql.connect)):
 def all_questions(db: Session = Depends(psql.connect)):
     return db.query(models.Questions).all()
 
-@app.post("/api/questions")
+@app.post("/api/question")
 def add_question(question: Question, db: Session = Depends(psql.connect)):
     phones = get_free_phones(db)
     if (len(phones) < 2):
@@ -103,7 +103,7 @@ def add_question(question: Question, db: Session = Depends(psql.connect)):
     question = models.Questions(
         prompt = question.description,
         uuid = str(quuid),
-        url = heroku_url + "/vxml/" + str(quuid) + ".xml",
+        url = heroku_url + "vxml/" + str(quuid) + ".xml",
         voteYesPhone = yes.phone,
         voteNoPhone = no.phone,
         yes = 0,

@@ -36,7 +36,7 @@ class QuestionBuilder:
         <prompt>
             The number of votes for "yes" on this question is {yes}, and for "no" is {no}. To view results for other questions, press or say 1.
         </prompt>
-        <choice dtmf="1" accept="exact" next="{domain}/vxml/root.xml">
+        <choice dtmf="1" accept="exact" next="{domain}vxml/root.xml">
             One
         </choice>
         <noinput>Please say or press one <enumerate/></noinput>
