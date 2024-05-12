@@ -1,7 +1,9 @@
 <vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
             <menu>
             <prompt>
-            If you want to know the results of the question: "This is the test question 123321", Please press or say 1.</prompt>
+                Test audio
+                <audio src="http://www.few.vu.nl/~vbr240/voices/LTE/communique.wa"/>
+            </prompt>
             <noinput>Please say one of <enumerate /></noinput>
             <choice dtmf="1" accept="exact" next="localhostvxml/2876985a-eefa-4023-9e7d-b0159ff27d4d.xml">one</choice></menu> 
 </vxml>
