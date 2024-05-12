@@ -75,14 +75,18 @@ def vote(number: str, db: Session = Depends(psql.connect)):
     if phone.question_type == "yes":
         question = db.query(models.Questions).filter(models.Questions.voteYesPhone == number).one_or_none()
         qbuilder = QuestionBuilder(question.yes + 1, question.no, heroku_url, question.uuid)
+        question.yes += 1
     else:
         question = db.query(models.Questions).filter(models.Questions.voteNoPhone == number).one_or_none()
         qbuilder = QuestionBuilder(question.yes, question.no + 1, heroku_url, question.uuid)
+        question.no += 1
 
     qbuilder.commit()
-    new_phone = models.PhonePool(phone = number)
-    db.add(new_phone)
-    return
+    db.add(question)
+    db.commit()
+    db.refresh(question)
+
+    return question
 
 @app.get("/api/questions")
 def all_questions(db: Session = Depends(psql.connect)):

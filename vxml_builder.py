@@ -7,7 +7,7 @@ class PhoneBuilder:
         <vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
             <form>
                 <block>
-                    <submit next="{domain}/api/vote/{number}" method="get"/>
+                    <submit next="{domain}api/vote/{number}" method="get"/>
                 </block>
             </form>
 
