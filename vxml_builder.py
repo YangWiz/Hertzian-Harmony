@@ -75,16 +75,16 @@ class HomeBuilder:
         prompt.text += f"If you want to know the results of the question: \"{prompt_text}\", Please press or say {dtmf}."
 
         audio_fr = ET.Element("audio")
-        audio_fr.set("src", audio_url + "-french.wav")
+        audio_fr.set("src", audio_url + "-french.mp3")
 
         audio_sp = ET.Element("audio")
-        audio_sp.set("src", audio_url + "-bambara.wav")
+        audio_sp.set("src", audio_url + "-bambara.mp3")
 
         audio_it = ET.Element("audio")
-        audio_it.set("src", audio_url + "-fula.wav")
+        audio_it.set("src", audio_url + "-fula.mp3")
 
         audio_bo = ET.Element("audio")
-        audio_bo.set("src", audio_url + "-bobo.wav")
+        audio_bo.set("src", audio_url + "-bobo.mp3")
 
         prompt.append(audio_fr)
         prompt.append(audio_sp)

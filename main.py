@@ -251,5 +251,5 @@ def add_question(
         str(id) +
         "-" +
         language +
-        ".wav")
+        ".mp3")
     return language + " Added"
