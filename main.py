@@ -1,6 +1,4 @@
 from typing import Union
-from fastapi import FastAPI
-import inflect
 from fastapi import FastAPI, Depends
 from schemas import Item, Phone, Question
 from sqlalchemy.orm import Session
@@ -13,6 +11,7 @@ from fastapi import FastAPI, File
 from fastapi.responses import FileResponse
 from vxml_builder import QuestionBuilder, HomeBuilder, PhoneBuilder
 import urllib.parse
+from tts import ICT4DTTS
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -30,9 +29,11 @@ app.add_middleware(
 
 ENV_VAR_DB_URL = "DATABASE_URL"
 HEROKU_URL = "HEROKU_URL"
+OPENAI_KEY = "OPENAI_API"
 
 db_url = os.getenv(ENV_VAR_DB_URL, "localhost")
 heroku_url = os.getenv(HEROKU_URL, "localhost")
+openai_api = os.getenv(OPENAI_KEY, "OPENAI")
 db_url = db_url.replace('postgres', 'postgresql')
 
 psql = db(db_url)
@@ -121,6 +122,8 @@ def add_question(question: Question, db: Session = Depends(psql.connect)):
     options = {}
     options["prompt"] = question.prompt
     options["url"] = question.url
+    options["audio_url"] = heroku_url + "audios/" + str(question.uuid)
+
     vxml.updated_vxml([options])
     vxml.commit()
 
@@ -149,3 +152,19 @@ def fetch_files(path: str):
     # Decode URL-encoded characters
     decoded_string = urllib.parse.unquote(path)
     return "vxml/" + decoded_string
+
+@app.get("/audios/{path}", response_class=FileResponse)
+def fetch_files(path: str):
+    # Decode URL-encoded characters
+    decoded_string = urllib.parse.unquote(path)
+    return "audios/" + decoded_string
+
+@app.post("/api/question/{language}")
+def add_question(language: str, question: Question, db: Session = Depends(psql.connect)):
+    prompt = question.description
+    id = question.uuid
+
+    tts = ICT4DTTS(openai_api=openai_api)
+    tts.english_text_to_speech(prompt, language, is_generate_wav_file=True, file_path="audios/" + str(id) + "-" + language + ".wav")
+    return language + " Added"
+

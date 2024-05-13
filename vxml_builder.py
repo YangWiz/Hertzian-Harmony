@@ -63,11 +63,27 @@ class HomeBuilder:
         with open(self.home_path, 'r') as file:
             self.vxml_template = file.read()
 
-    def add_menu_option(self, tree, dtmf, prompt_text, next_url):
+    def add_menu_option(self, tree, dtmf, prompt_text, next_url, audio_url):
         menu = tree.find('{http://www.w3.org/2001/vxml}menu')
         
         prompt = menu.find('{http://www.w3.org/2001/vxml}prompt')
         prompt.text += f"If you want to know the results of the question: \"{prompt_text}\", Please press or say {dtmf}."
+
+        audio_fr = ET.Element("audio")
+        audio_fr.set("src", audio_url + "-french.wav")
+
+        audio_sp = ET.Element("audio")
+        audio_sp.set("src", audio_url + "-bambara.wav")
+
+        audio_it = ET.Element("audio")
+        audio_it.set("src", audio_url + "-fula.wav")
+
+        audio_fr = ET.Element("audio")
+        audio_fr.set("src", audio_url + "-bobo.wav")
+
+        prompt.append(audio_fr)
+        prompt.append(audio_sp)
+        prompt.append(audio_it)
 
         choice = ET.Element('choice')
         choice.set('dtmf', str(dtmf))
@@ -141,7 +157,7 @@ class HomeBuilder:
 
         for option in options:
             last += 1
-            self.add_menu_option(tree, last, option['prompt'], option['url'])
+            self.add_menu_option(tree, last, option['prompt'], option['url'], option["audio_url"])
         
         root = tree.getroot()
         self.vxml_template = ET.tostring(root, encoding='unicode', method='xml')

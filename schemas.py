@@ -9,4 +9,5 @@ class Phone(BaseModel):
     number: str
 
 class Question(BaseModel):
+    uuid: str
     description: str
