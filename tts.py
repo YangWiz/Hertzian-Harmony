@@ -1,5 +1,4 @@
 import json
-import torch
 from openai import OpenAI
 from typing import Optional
 
