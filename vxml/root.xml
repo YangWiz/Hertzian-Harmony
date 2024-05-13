@@ -1,7 +1,7 @@
 <vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
             <menu>
             <prompt>
-            If you want to know the results of the question: "string-test", Please press or say 1.If you want to know the results of the question: "string", Please press or say 2.If you want to know the results of the question: "string", Please press or say 3.If you want to know the results of the question: "This is the question for testing the system.", Please press or say 4.</prompt>
+            </prompt>
             <noinput>Please say one of <enumerate /></noinput>
-        <choice dtmf="1" accept="exact" next="localhost/vxml/1cc5f307-3409-4cc1-a268-759cbe2c03ac.xml">one</choice><choice dtmf="2" accept="exact" next="localhost/vxml/754bde42-1da2-4519-823f-200c37d7282b.xml">two</choice><choice dtmf="3" accept="exact" next="localhost/vxml/a3c75bc7-e555-4dde-a8f5-541a212c277c.xml">three</choice><choice dtmf="4" accept="exact" next="localhost/vxml/bca9a28c-3ff4-4a63-b75d-df34838d2421.xml">four</choice></menu> 
+            </menu> 
 </vxml>
