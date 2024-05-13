@@ -11,7 +11,9 @@ class PhoneBuilder:
                     <submit next="{domain}api/vote/{number}" method="get"/>
                 </block>
             </form>
-
+            <prompt>
+                Voted!
+            </prompt>
             <catch event="error">
                 <prompt>There was an error processing your request.</prompt>
             </catch>
