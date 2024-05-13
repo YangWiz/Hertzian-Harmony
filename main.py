@@ -192,6 +192,47 @@ def fetch_files(path: str):
     return "audios/" + decoded_string
 
 
+@app.get("/api/reset")
+def reset(db: Session = Depends(psql.connect)):
+    root = """
+        <vxml xmlns="http://www.w3.org/2001/vxml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://www.w3.org/2001/vxml              http://www.w3.org/TR/voicexml20/vxml.xsd">
+            <menu>
+            <prompt>
+            </prompt>
+            <noinput>Please say one of <enumerate /></noinput>
+            </menu> 
+        </vxml>
+        """
+    delete_files("vxml")
+    delete_files("audios")
+
+    db.query(models.PhonePool).delete()
+    db.commit()
+
+    db.query(models.Questions).delete()
+    db.commit()
+
+    with open("vxml/root.xml", "w") as f:
+        f.write(root) 
+
+    return "cleaned"
+
+def delete_files(directory):
+    if not os.path.isdir(directory):
+        print(f"The directory {directory} does not exist.")
+        return
+
+    # Loop through all files in the directory
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        
+        # Check if it is a file and not a directory
+        if os.path.isfile(file_path):
+            os.remove(file_path)  # Remove the file
+            print(f"Deleted file: {file_path}")
+        else:
+            print(f"Skipped directory: {file_path}")
+
 @app.post("/api/question/{language}")
 def add_question(
     language: str,
