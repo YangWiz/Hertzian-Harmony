@@ -20,7 +20,8 @@ class ICT4DTTS:
             response_format={"type": "json_object"}
         )
         try:
-            french_text = json.loads(response.choices[0].message.content)["french"]
+            french_text = json.loads(
+                response.choices[0].message.content)["french"]
         except json.JSONDecodeError as e:
             raise ValueError(f"JSON decoding error: {e}")
         except KeyError as e:
@@ -41,7 +42,8 @@ class ICT4DTTS:
             response_format={"type": "json_object"}
         )
         try:
-            spanish_text = json.loads(response.choices[0].message.content)["bobo"]
+            spanish_text = json.loads(
+                response.choices[0].message.content)["bobo"]
         except json.JSONDecodeError as e:
             raise ValueError(f"JSON decoding error: {e}")
         except KeyError as e:
@@ -49,7 +51,7 @@ class ICT4DTTS:
         except Exception as e:
             raise Exception(f"Unexpected error: {e}")
 
-        return spanish_text 
+        return spanish_text
 
     def _translate_en_to_fl(self, text: str) -> str:
         response = self.openai_client.chat.completions.create(
@@ -62,7 +64,8 @@ class ICT4DTTS:
             response_format={"type": "json_object"}
         )
         try:
-            spanish_text = json.loads(response.choices[0].message.content)["fula"]
+            spanish_text = json.loads(
+                response.choices[0].message.content)["fula"]
         except json.JSONDecodeError as e:
             raise ValueError(f"JSON decoding error: {e}")
         except KeyError as e:
@@ -70,7 +73,7 @@ class ICT4DTTS:
         except Exception as e:
             raise Exception(f"Unexpected error: {e}")
 
-        return spanish_text 
+        return spanish_text
 
     def _translate_en_to_ba(self, text: str) -> str:
         response = self.openai_client.chat.completions.create(
@@ -83,7 +86,8 @@ class ICT4DTTS:
             response_format={"type": "json_object"}
         )
         try:
-            italian_text = json.loads(response.choices[0].message.content)["bambara"]
+            italian_text = json.loads(
+                response.choices[0].message.content)["bambara"]
         except json.JSONDecodeError as e:
             raise ValueError(f"JSON decoding error: {e}")
         except KeyError as e:
@@ -91,13 +95,13 @@ class ICT4DTTS:
         except Exception as e:
             raise Exception(f"Unexpected error: {e}")
 
-        return italian_text 
+        return italian_text
 
     def _generate_voice(self,
-                               text: str,
-                               is_generate_wav_file: bool = False,
-                               file_path: Optional[str] = None,
-                               ) -> Optional[list[float]]:
+                        text: str,
+                        is_generate_wav_file: bool = False,
+                        file_path: Optional[str] = None,
+                        ) -> Optional[list[float]]:
 
         if is_generate_wav_file:
             if file_path is None:
