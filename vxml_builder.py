@@ -81,12 +81,13 @@ class HomeBuilder:
         audio_it = ET.Element("audio")
         audio_it.set("src", audio_url + "-fula.wav")
 
-        audio_fr = ET.Element("audio")
-        audio_fr.set("src", audio_url + "-bobo.wav")
+        audio_bo = ET.Element("audio")
+        audio_bo.set("src", audio_url + "-bobo.wav")
 
         prompt.append(audio_fr)
         prompt.append(audio_sp)
         prompt.append(audio_it)
+        prompt.append(audio_bo)
 
         choice = ET.Element('choice')
         choice.set('dtmf', str(dtmf))

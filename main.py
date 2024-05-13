@@ -71,14 +71,14 @@ def all_phones(db: Session = Depends(psql.connect)):
 @app.get("/api/free_phones")
 def free_phones(db: Session = Depends(psql.connect)):
     return db.query(models.PhonePool).filter(
-        models.PhonePool.question_type is None).all()
+        models.PhonePool.question_type == None).all()
 
 
 @app.get("/api/vote/{number}")
 def vote(number: str, db: Session = Depends(psql.connect)):
     phone = db.query(models.PhonePool).filter(
         models.PhonePool.phone == number).one_or_none()
-    if phone is None:
+    if phone == None:
         return
 
     if phone.question_type == "yes":
@@ -157,7 +157,7 @@ def add_question(question: Question, db: Session = Depends(psql.connect)):
 
 def get_free_phones(db: Session = Depends(psql.connect)):
     phones = db.query(models.PhonePool).filter(
-        models.PhonePool.question_uuid is None).all()
+        models.PhonePool.question_uuid == None).all()
     if (len(phones) <= 1):
         return []
     else:
